@@ -1,0 +1,4 @@
+mvn clean install && \
+docker rm -f friendmgt-app
+docker rmi -f friend-management
+docker-compose up -d 
