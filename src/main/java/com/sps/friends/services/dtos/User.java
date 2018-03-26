@@ -6,23 +6,26 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name = "user_id", nullable = false)
-    String userId;
+    private String userId;
 
     @Column(name = "email", nullable = false, unique = true)
-    String email;
+    private String email;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<UsersRelation> relations;
 
     public String toString(){
-        return String.format("User [ user_id=%s and email=%s ]", userId, email);
+        return String.format("[ user_id=%s and email=%s ]", userId, email);
     }
 }

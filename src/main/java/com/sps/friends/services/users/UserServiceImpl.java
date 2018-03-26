@@ -1,6 +1,7 @@
 package com.sps.friends.services.users;
 
 import com.sps.friends.services.dtos.User;
+import com.sps.friends.services.relations.UserRelationService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User register(String email) {
-        User dto = findByEmail(email);
+        User dto = userRepo.findByEmail(email);
         if( dto==null ) {
             dto=new User();
             dto.setEmail(email);
@@ -27,6 +28,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User findByEmail(String email) {
-        return userRepo.findByEmail(email);
+        return register(email);
     }
 }

@@ -11,12 +11,12 @@ public interface FriendService {
      * Register user if not exists in friends management database,
      * links each other as friends
      *
-     * @param email1
-     * @param email2
+     * @param userEmail
+     * @param friendEmail
      *
      * @return boolean
      */
-    boolean makefriend(String email1, String email2);
+    boolean makefriend(String userEmail, String friendEmail);
 
     /**
      * Get All friend of a user
@@ -29,12 +29,12 @@ public interface FriendService {
     /**
      * Find common friends of provided two email address
      *
-     * @param email1
-     * @param email2
+     * @param requestorEmail
+     * @param targetEmail
      *
      * @return List<String>
      */
-    List<String> getMutualFriends(String email1, String email2);
+    List<String> getMutualFriends(String requestorEmail, String targetEmail);
 
     /**
      *
@@ -61,8 +61,8 @@ public interface FriendService {
      *
      * Post update
      *
-     * @param email
+     * @param userEmail
      * @return
      */
-    List<String> postUpdate(String email, String postText);
+    List<String> postUpdate(String userEmail, String postText);
 }
