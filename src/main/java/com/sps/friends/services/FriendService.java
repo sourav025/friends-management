@@ -64,5 +64,5 @@ public interface FriendService {
      * @param email
      * @return
      */
-    List<String> postUpdate(String email);
+    List<String> postUpdate(String email, String postText);
 }

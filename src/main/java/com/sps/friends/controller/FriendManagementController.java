@@ -6,7 +6,11 @@ import com.sps.friends.controller.entities.request.RequestEmail;
 import com.sps.friends.controller.entities.request.UpdateRequestEntity;
 import com.sps.friends.controller.entities.request.PostUpdateRequestEntity;
 import com.sps.friends.controller.entities.response.Response;
+import com.sps.friends.services.FriendService;
 import io.swagger.annotations.*;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +23,23 @@ import java.util.List;
 
 @RestController("/")
 @Api(value = "FriendManagement Api", description = "All api is implemted here to mange friends connection.")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class FriendManagementController {
+
+    private FriendService friendService;
 
     @RequestMapping(value="makefriend", method = RequestMethod.PUT)
     @ApiOperation(value = "Api to make frindship.", response = Response.class)
     @JsonView(Response.FriendView.Success.class)
     public ResponseEntity<Response> makefriend(@RequestBody ConnectionRequestEntity requestEntity){
-        return ResponseEntity.ok(Response.builder().build());
+
+        if(requestEntity.getFriends().size() != 2){
+            throw new RuntimeException("Invalid Parameter passed.");
+        }
+        String email1=requestEntity.getFriends().get(0);
+        String email2=requestEntity.getFriends().get(1);
+        boolean result = friendService.makefriend(email1, email2);
+        return ResponseEntity.ok(Response.builder().success(result).build());
     }
 
     @ApiOperation(value = "getfriends",nickname = "friendlist", response = Response.class)
