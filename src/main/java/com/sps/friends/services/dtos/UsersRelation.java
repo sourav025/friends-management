@@ -8,14 +8,13 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class UsersRelation {
     @EmbeddedId
     private RelationKey relationKey;
 
     @Column(name = "is_friend")
-    private boolean isFriend;
+    private boolean friend;
 
     @Column(name = "is_following")
     private boolean following;

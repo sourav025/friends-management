@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@RestController("/")
+@RestController
 @Api(value = "FriendManagement Api", description = "All api is implemted here to mange friends connection.")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class FriendManagementController {
@@ -32,9 +32,9 @@ public class FriendManagementController {
     private FriendService friendService;
     private ValidationService validationService;
 
-    @RequestMapping(value="makefriend", method = RequestMethod.PUT)
     @ApiOperation(value = "Api to make frindship.", response = Response.class)
     @JsonView(Response.FriendView.Success.class)
+    @RequestMapping(value="/makefriend", method = RequestMethod.PUT)
     public ResponseEntity<Response> makefriend(@RequestBody ConnectionRequestEntity requestEntity) throws ApiException{
         validationService.validateConnectionRequestEntity(requestEntity);
         String email1=requestEntity.getFriends().get(0);
@@ -43,7 +43,7 @@ public class FriendManagementController {
         return ResponseEntity.ok(Response.builder().success(result).build());
     }
 
-    @ApiOperation(value = "getfriends",nickname = "friendlist", response = Response.class)
+    @ApiOperation(value = "Get all friends of a user",nickname = "friendslist", response = Response.class)
     @JsonView(Response.FriendView.Friends.class)
     @RequestMapping(value = "/friends", method = RequestMethod.POST)
     public ResponseEntity<Response> retrieveFriends(@RequestBody RequestEmail request) throws ApiException{
@@ -53,12 +53,12 @@ public class FriendManagementController {
         return ResponseEntity.ok(response);
     }
 
-    @ApiOperation(value = "Mutual Friends",nickname = "mutialfriends list", response = Response.class)
+    @ApiOperation(value = "Mutual Friends",nickname = "mutualfriends", response = Response.class)
     @JsonView(Response.FriendView.Friends.class)
     @RequestMapping(value = "/mutualfriends", method = RequestMethod.POST)
-    public ResponseEntity<Response> mutualFriends(@RequestBody UpdateRequestEntity mutualFriendRequestEntity) throws ApiException{
-        validationService.validateUpdateRequestEntity(mutualFriendRequestEntity);
-        List<String> mutualFriendsList=friendService.getMutualFriends(mutualFriendRequestEntity.getRequestor(), mutualFriendRequestEntity.getTarget());
+    public ResponseEntity<Response> mutualFriends(@RequestBody ConnectionRequestEntity requestEntity) throws ApiException{
+        validationService.validateConnectionRequestEntity(requestEntity);
+        List<String> mutualFriendsList=friendService.getMutualFriends(requestEntity.getFriends().get(0), requestEntity.getFriends().get(1));
         Response response = Response.builder().success(true).friends(mutualFriendsList).count(mutualFriendsList.size()).build();
         return ResponseEntity.ok(response);
     }
@@ -68,22 +68,25 @@ public class FriendManagementController {
     @JsonView(Response.FriendView.Success.class)
     public ResponseEntity<Response> subscribe(@RequestBody UpdateRequestEntity requestEntity) throws ApiException{
         validationService.validateUpdateRequestEntity(requestEntity);
-        return ResponseEntity.ok(Response.builder().friends(Collections.singletonList("TODO IMPL")).build());
+        boolean response = friendService.subsribe(requestEntity.getRequestor(), requestEntity.getTarget());
+        return ResponseEntity.ok(Response.builder().success(response).build());
     }
 
-    @ApiOperation(value = "Block recipient for subscription",nickname = "block_subscription", response = Response.class)
+    @ApiOperation(value = "Block recipient for subscription",nickname = "block", response = Response.class)
     @JsonView(Response.FriendView.Success.class)
     @RequestMapping(value = "/block", method = RequestMethod.POST)
     public ResponseEntity<Response> block(@RequestBody UpdateRequestEntity requestEntity) throws ApiException{
         validationService.validateUpdateRequestEntity(requestEntity);
-        return ResponseEntity.ok(Response.builder().friends(Collections.singletonList("TODO Implementation")).build());
+        boolean isBlocked = friendService.blockSubscription(requestEntity.getRequestor(), requestEntity.getTarget());
+        return ResponseEntity.ok(Response.builder().success(isBlocked).build());
     }
 
-    @ApiOperation(value = "Post a update and retrieve the recipients",nickname = "subscription", response = Response.class)
+    @ApiOperation(value = "Post a update and retrieve the recipients",nickname = "post", response = Response.class)
     @RequestMapping(value = "/post", method = RequestMethod.POST)
     @JsonView(Response.FriendView.Recipients.class)
-    public ResponseEntity<Response> postUpdate(@RequestBody PostUpdateRequestEntity postUpdateEntity){
-        // TODO Validation Required
-        return ResponseEntity.ok(Response.builder().friends(Collections.singletonList("TODO: Implement post update for")).build());
+    public ResponseEntity<Response> postUpdate(@RequestBody PostUpdateRequestEntity postUpdateEntity) throws  ApiException{
+        validationService.validatePostUpdateRequest(postUpdateEntity);
+        List<String> followersEmail=friendService.postUpdate(postUpdateEntity.getSender(), postUpdateEntity.getText());
+        return ResponseEntity.ok(Response.builder().recipients(followersEmail).count(followersEmail.size()).build());
     }
 }

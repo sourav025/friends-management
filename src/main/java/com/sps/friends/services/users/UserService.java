@@ -7,4 +7,5 @@ import java.util.UUID;
 public interface UserService {
     public User register(String email);
     public User findByEmail(String email);
+    public String findEmailById(String userId);
 }
