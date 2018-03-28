@@ -32,7 +32,7 @@ public class FriendManagementController {
     private FriendService friendService;
     private ValidationService validationService;
 
-    @ApiOperation(value = "Api to make frindship.", response = Response.class)
+    @ApiOperation(value = "Api to make friendship.", response = Response.class)
     @JsonView(Response.FriendView.Success.class)
     @RequestMapping(value="/makefriend", method = RequestMethod.PUT)
     public ResponseEntity<Response> makefriend(@RequestBody ConnectionRequestEntity requestEntity) throws ApiException{

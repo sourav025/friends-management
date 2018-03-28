@@ -41,7 +41,8 @@ public class UserRelationServiceImpl implements UserRelationService{
     @Override
     public boolean subscribeForUpdate(String requestorId, String targetId) {
         UsersRelation usersRelation = findOrCreateNewUserRelation(requestorId,targetId);
-        if(!usersRelation.isBlocked()) {
+        UsersRelation friendsRelation = findOrCreateNewUserRelation(targetId,requestorId);
+        if(!usersRelation.isBlocked() && !friendsRelation.isBlocked()) {
             usersRelation.setFollowing(true);
         }
         usersRelation=save(usersRelation);

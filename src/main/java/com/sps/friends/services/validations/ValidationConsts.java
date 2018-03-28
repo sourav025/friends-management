@@ -7,6 +7,6 @@ public class ValidationConsts {
     public static final String INVALID_POST_MSG ="Invalid requested Api arguments. Excepted: Valid email address and NonEmpty text to post update.";
     public static final String INVALID_DUPLICATE_FOUND_MSG="Invalid duplicate emails found. Duplicate not allowed.";
 
-    public static final String EMAIL_VERIFICATION_REGEX = "^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$";
+    public static final String EMAIL_VERIFICATION_REGEX = "([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}([\\.]{1,1}[\\w&&[^_]]{2,}){1,3}";
     public static final int EMAIL_MAX_LEN=255;
 }

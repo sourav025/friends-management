@@ -7,6 +7,8 @@ import com.sps.friends.services.users.UserService;
 import com.sps.friends.services.validations.ValidationConsts;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.UUID;
+import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -22,6 +25,8 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class FriendServiceImpl implements FriendService{
+
+    private static Logger logger = LoggerFactory.getLogger(FriendServiceImpl.class);
 
     private UserService userService;
     private UserRelationService userRelationService;
@@ -76,15 +81,27 @@ public class FriendServiceImpl implements FriendService{
 
 
     private void findMentionAndAddAsFollower(String poster, String postText) {
-        // TODO Improvement is needed
-        Pattern emailPattern = Pattern.compile(ValidationConsts.EMAIL_VERIFICATION_REGEX);
-        String[] emailTokens = postText.split("[,!`\"\\s+?]");
-        for(int i=0;i<emailTokens.length;i++){
-            String emailToken = emailTokens[i];
-            if( emailToken!=null && emailToken.length()>0
-                    && emailPattern.matcher(emailToken).matches()){
-                subsribe(emailToken, poster);
-            }
+
+        Pattern emailPattern=Pattern.compile(ValidationConsts.EMAIL_VERIFICATION_REGEX);
+        Matcher matcher = emailPattern.matcher(postText);
+        while(matcher.find()){
+            MatchResult matchResult =matcher.toMatchResult();
+            String subsriber = matchResult.group(0);
+            logger.info("Found {}. Subscribing to {}.", subsriber, poster);
+            subsribe(subsriber, poster);
         }
+
+//        TODO Improvement is needed
+//        Pattern emailPattern = Pattern.compile(ValidationConsts.EMAIL_VERIFICATION_REGEX);
+//        String[] emailTokens = postText.split("[,!`\"\\s+?]");
+//        for(int i=0;i<emailTokens.length;i++){
+//            String emailToken = emailTokens[i];
+//
+//            if( emailToken!=null && emailToken.length()>0
+//                    && emailPattern.matcher(emailToken).matches()){
+//                subsribe(emailToken, poster);
+//            }
+//        }
     }
+
 }
