@@ -1,21 +1,18 @@
 package com.sps.friends.services.validations;
 
-import com.sps.friends.controller.entities.request.ConnectionRequestEntity;
-import com.sps.friends.exceptions.ApiException;
-import com.sps.friends.exceptions.InvalidEmailException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.sps.friends.controller.entities.request.ConnectionRequestEntity;
+import com.sps.friends.exceptions.ApiException;
+import com.sps.friends.exceptions.InvalidEmailException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

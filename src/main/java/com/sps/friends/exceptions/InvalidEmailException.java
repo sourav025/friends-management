@@ -1,7 +1,12 @@
 package com.sps.friends.exceptions;
 
 public class InvalidEmailException extends ApiException {
-    public InvalidEmailException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2000285856350519592L;
+
+	public InvalidEmailException(String message) {
         super(message);
     }
 

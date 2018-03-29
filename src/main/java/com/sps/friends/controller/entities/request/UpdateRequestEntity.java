@@ -1,7 +1,6 @@
 package com.sps.friends.controller.entities.request;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 @Builder

@@ -1,12 +1,13 @@
 package com.sps.friends;
 
-import com.sps.friends.config.SwaggerConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.sps.friends.config.SwaggerConfig;
 
 @SpringBootApplication(scanBasePackages = "com.sps.friends")
 @Import(SwaggerConfig.class)

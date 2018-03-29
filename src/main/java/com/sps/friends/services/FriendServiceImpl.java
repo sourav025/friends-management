@@ -1,35 +1,31 @@
 package com.sps.friends.services;
 
-import com.sps.friends.services.dtos.User;
-import com.sps.friends.services.dtos.UsersRelation;
-import com.sps.friends.services.relations.UserRelationService;
-import com.sps.friends.services.users.UserService;
-import com.sps.friends.services.validations.ValidationConsts;
-import com.sps.friends.services.validations.ValidationService;
-import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.*;
-import java.util.function.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sps.friends.services.dtos.User;
+import com.sps.friends.services.relations.UserRelationService;
+import com.sps.friends.services.users.UserService;
+import com.sps.friends.services.validations.ValidationConsts;
+
+import lombok.AllArgsConstructor;
+
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class FriendServiceImpl implements FriendService{
 
-    private static Logger logger = LoggerFactory.getLogger(FriendServiceImpl.class);
-
     private UserService userService;
     private UserRelationService userRelationService;
-    private ValidationService validationService;
-
+    
     @Override
     @Transactional
     public boolean makefriend(String userEmail, String friendEmail) {

@@ -1,0 +1,26 @@
+---
+logging:
+  level:
+    root: ERROR
+    org.springframework.web: ERROR
+    com.sps.friends: DEBUG
+    com.howtodoinjava: DEBUG
+    org.hibernate: ERROR
+  #pattern.console: %d{yyyy-MM-dd HH:mm:ss} - %msg%n
+  #pattern.file: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+  file: /var/log/friendsmgt.log
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+    settings:
+      web-allow-others: true
+  datasource:
+    url: jdbc:h2:file:~/friends
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    generate-ddl: true
+    show-sql: true

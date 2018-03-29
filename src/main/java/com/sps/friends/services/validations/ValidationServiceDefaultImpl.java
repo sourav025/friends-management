@@ -1,6 +1,17 @@
 package com.sps.friends.services.validations;
 
-import static com.sps.friends.services.validations.ValidationConsts.*;
+import static com.sps.friends.services.validations.ValidationConsts.EMAIL_VERIFICATION_REGEX;
+import static com.sps.friends.services.validations.ValidationConsts.INVALID_ARGUMENT_MSG;
+import static com.sps.friends.services.validations.ValidationConsts.INVALID_DUPLICATE_FOUND_MSG;
+import static com.sps.friends.services.validations.ValidationConsts.INVALID_EMAIL_MSG;
+import static com.sps.friends.services.validations.ValidationConsts.INVALID_POST_MSG;
+import static com.sps.friends.services.validations.ValidationConsts.VALID_MAKE_FRIENDS;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Pattern;
+
+import org.springframework.stereotype.Component;
 
 import com.sps.friends.controller.entities.request.ConnectionRequestEntity;
 import com.sps.friends.controller.entities.request.PostUpdateRequestEntity;
@@ -8,11 +19,6 @@ import com.sps.friends.controller.entities.request.UpdateRequestEntity;
 import com.sps.friends.exceptions.ApiException;
 import com.sps.friends.exceptions.InvalidArgumentsException;
 import com.sps.friends.exceptions.InvalidEmailException;
-import org.springframework.stereotype.Component;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 @Component
 public class ValidationServiceDefaultImpl implements ValidationService {

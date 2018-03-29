@@ -1,15 +1,16 @@
 package com.sps.friends.services.relations;
 
-import com.sps.friends.services.dtos.RelationKey;
-import com.sps.friends.services.dtos.UsersRelation;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sps.friends.services.dtos.RelationKey;
+import com.sps.friends.services.dtos.UsersRelation;
+
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))

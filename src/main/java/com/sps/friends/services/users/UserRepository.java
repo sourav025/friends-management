@@ -1,9 +1,8 @@
 package com.sps.friends.services.users;
 
-import com.sps.friends.services.dtos.User;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.UUID;
+import com.sps.friends.services.dtos.User;
 
 public interface UserRepository extends CrudRepository<User, String>{
     User findByEmail(String email);

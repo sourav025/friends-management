@@ -1,7 +1,12 @@
 package com.sps.friends.exceptions;
 
 public class ApiException extends Exception {
-    public ApiException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2689043508291746621L;
+
+	public ApiException(String message) {
         super(message);
     }
 

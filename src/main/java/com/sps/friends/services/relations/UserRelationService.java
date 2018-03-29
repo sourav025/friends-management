@@ -1,8 +1,5 @@
 package com.sps.friends.services.relations;
 
-import com.sps.friends.services.dtos.User;
-import com.sps.friends.services.dtos.UsersRelation;
-
 import java.util.List;
 
 /**

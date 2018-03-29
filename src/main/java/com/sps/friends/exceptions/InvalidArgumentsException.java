@@ -1,7 +1,12 @@
 package com.sps.friends.exceptions;
 
 public class InvalidArgumentsException extends ApiException {
-    public InvalidArgumentsException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -287454948471644078L;
+
+	public InvalidArgumentsException(String message) {
         super(message);
     }
 

@@ -1,14 +1,13 @@
 package com.sps.friends.services.users;
 
-import com.sps.friends.services.dtos.User;
-import com.sps.friends.services.relations.UserRelationService;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.UUID;
+import com.sps.friends.services.dtos.User;
+
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))

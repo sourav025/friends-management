@@ -1,12 +1,10 @@
 package com.sps.friends.controller.entities.response;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import lombok.Getter;
 
 @Getter
 @JsonPropertyOrder({"success","recipients","count"})
