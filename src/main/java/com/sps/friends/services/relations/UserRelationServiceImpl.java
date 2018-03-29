@@ -66,6 +66,15 @@ public class UserRelationServiceImpl implements UserRelationService{
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<String> findRelationsByUserId(String userId) {
+        List<UsersRelation> usersRelations = userRelationRepository.findByRelationKeyUserId(userId);
+        return usersRelations.stream()
+                .filter(usersRelation -> usersRelation.isFriend())
+                .map(usersRelation -> usersRelation.getRelationKey().getFriendUserId())
+                .collect(Collectors.toList());
+    }
+
     private UsersRelation save(UsersRelation usersRelation){
         return userRelationRepository.save(usersRelation);
     }

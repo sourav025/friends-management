@@ -11,4 +11,5 @@ import java.util.List;
 
 public interface UserRelationRepository extends JpaRepository<UsersRelation, RelationKey> {
     List<UsersRelation> findByRelationKeyFriendUserId(String friendUserId);
+    List<UsersRelation> findByRelationKeyUserId(String userId);
 }

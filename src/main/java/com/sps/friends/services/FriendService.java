@@ -65,4 +65,6 @@ public interface FriendService {
      * @return
      */
     List<String> postUpdate(String userEmail, String postText);
+
+    List<String> findTaggedEmails(String postText);
 }

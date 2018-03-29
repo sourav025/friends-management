@@ -9,6 +9,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
+.friends-management.iml
 
 .classpath
 .project

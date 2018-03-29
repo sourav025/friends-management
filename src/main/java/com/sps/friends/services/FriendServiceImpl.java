@@ -5,18 +5,16 @@ import com.sps.friends.services.dtos.UsersRelation;
 import com.sps.friends.services.relations.UserRelationService;
 import com.sps.friends.services.users.UserService;
 import com.sps.friends.services.validations.ValidationConsts;
+import com.sps.friends.services.validations.ValidationService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.List;
-import java.util.StringTokenizer;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,6 +28,7 @@ public class FriendServiceImpl implements FriendService{
 
     private UserService userService;
     private UserRelationService userRelationService;
+    private ValidationService validationService;
 
     @Override
     @Transactional
@@ -42,19 +41,16 @@ public class FriendServiceImpl implements FriendService{
     @Override
     public List<String> getFriends(String email) {
         User user = userService.findByEmail(email);
-        if(user.getRelations()==null){
-            return Collections.emptyList();
-        }
-        return user.getRelations().stream().filter(usersRelation -> usersRelation.isFriend()).map(usersRelation -> usersRelation.getFriendUserId().getEmail()).collect(Collectors.toList());
+        List<String> friendsIdList=userRelationService.findRelationsByUserId(user.getUserId());
+        return friendsIdList.stream().map(friendId->userService.findEmailById(friendId)).collect(Collectors.toList());
     }
 
     @Override
     public List<String> getMutualFriends(String requestorEmail, String targetEmail) {
-        // Get userid instead of email address. If not present, create register as new user
         List<String> requestorFriends = getFriends(requestorEmail);
         List<String> targetFriends=getFriends(targetEmail);
         return requestorFriends.stream()
-                .filter(friend -> targetFriends.contains(friend)).collect(Collectors.toList());
+                .filter(targetFriends::contains).collect(Collectors.toList());
     }
 
     @Override
@@ -73,35 +69,24 @@ public class FriendServiceImpl implements FriendService{
 
     @Override
     public List<String> postUpdate(String userEmail, String postText) {
-        findMentionAndAddAsFollower(userEmail, postText);
+        List<String> taggedEmails= findTaggedEmails(postText);
+        taggedEmails.forEach(taggedEmail -> subsribe(taggedEmail, userEmail));
         User user = userService.findByEmail(userEmail);
         List<String> followersIdList = userRelationService.findFollower(user.getUserId());
         return followersIdList.stream().map(followersId->userService.findEmailById(followersId)).collect(Collectors.toList());
     }
 
-
-    private void findMentionAndAddAsFollower(String poster, String postText) {
-
+    @Override
+    public List<String> findTaggedEmails(String postText) {
+        List<String> taggedEmails = new ArrayList<>();
         Pattern emailPattern=Pattern.compile(ValidationConsts.EMAIL_VERIFICATION_REGEX);
         Matcher matcher = emailPattern.matcher(postText);
         while(matcher.find()){
             MatchResult matchResult =matcher.toMatchResult();
-            String subsriber = matchResult.group(0);
-            logger.info("Found {}. Subscribing to {}.", subsriber, poster);
-            subsribe(subsriber, poster);
+            String taggedEmail = matchResult.group(0);
+            taggedEmails.add(taggedEmail);
         }
-
-//        TODO Improvement is needed
-//        Pattern emailPattern = Pattern.compile(ValidationConsts.EMAIL_VERIFICATION_REGEX);
-//        String[] emailTokens = postText.split("[,!`\"\\s+?]");
-//        for(int i=0;i<emailTokens.length;i++){
-//            String emailToken = emailTokens[i];
-//
-//            if( emailToken!=null && emailToken.length()>0
-//                    && emailPattern.matcher(emailToken).matches()){
-//                subsribe(emailToken, poster);
-//            }
-//        }
+        return taggedEmails;
     }
 
 }

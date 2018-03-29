@@ -1,6 +1,7 @@
 package com.sps.friends.services.relations;
 
 import com.sps.friends.services.dtos.User;
+import com.sps.friends.services.dtos.UsersRelation;
 
 import java.util.List;
 
@@ -12,4 +13,7 @@ public interface UserRelationService {
     boolean subscribeForUpdate(String requestorId, String targetId);
     boolean blockForUpdate(String requestorId, String targetId);
     List<String> findFollower(String targetId);
+
+    List<String> findRelationsByUserId(String userId);
+
 }

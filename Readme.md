@@ -20,8 +20,4 @@
 * Execute <code>./rundocker</code>
     * This script will remove the old running container and launch a new container. The image was created in the last <code>build</code> command will be used.
 * Please open browser and hit http://localhost:8080/
-    * It should open the SwaggerUI API documentation.
-
-## API Behavior
-
-
+    * It should open the SwaggerUI API documentation. Please try using swagger web to check api behavior.

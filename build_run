@@ -1,0 +1,4 @@
+mvn clean install && \
+docker-compose build --no-cache
+docker-compose rm -f
+docker-compose up -d
